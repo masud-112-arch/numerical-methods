@@ -1,0 +1,90 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{margin=1in}
+
+\title{Runge-Kutta 4th Order Method: Explanation and Worked Example}
+\author{Ibrahim Hossen Masud}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note presents the classical 4th-order Runge-Kutta (RK4) method for solving ordinary differential equations (ODEs). 
+It includes the derivation, a worked example, and discussion on accuracy and stability.
+\end{abstract}
+
+\section{Introduction}
+The Runge-Kutta methods are a family of iterative techniques for solving initial value problems:
+\[
+\frac{dy}{dt} = f(t,y), \quad y(t_0) = y_0
+\]
+
+The 4th-order Runge-Kutta (RK4) method is one of the most commonly used due to its high accuracy and simplicity for single-step methods. It is fourth-order accurate, meaning the global truncation error scales with \(h^4\).
+
+\section{Derivation of RK4 Method}
+The RK4 method computes intermediate slopes to approximate the solution:
+
+\[
+\begin{aligned}
+k_1 &= f(t_n, y_n) \\
+k_2 &= f\left(t_n + \frac{h}{2}, y_n + \frac{h}{2} k_1\right) \\
+k_3 &= f\left(t_n + \frac{h}{2}, y_n + \frac{h}{2} k_2\right) \\
+k_4 &= f(t_n + h, y_n + h k_3)
+\end{aligned}
+\]
+
+The next step is then computed as a weighted average of these slopes:
+\[
+y_{n+1} = y_n + \frac{h}{6} \left(k_1 + 2k_2 + 2k_3 + k_4\right)
+\]
+
+\textbf{Explanation:}  
+- \(k_1\) is the slope at the beginning of the interval  
+- \(k_2\) and \(k_3\) are slopes at the midpoint  
+- \(k_4\) is the slope at the end  
+- The weighted average gives a fourth-order accurate approximation
+
+\section{Worked Example}
+Consider the differential equation:
+\[
+\frac{dy}{dt} = t + y, \quad y(0) = 1
+\]
+with exact solution:
+\[
+y(t) = -t - 1 + 2 e^t
+\]
+
+Choose step size \(h = 0.1\).
+
+\subsection{Step 1}
+\[
+\begin{aligned}
+k_1 &= f(t_0, y_0) = 0 + 1 = 1 \\
+k_2 &= f(t_0 + 0.05, y_0 + 0.05 \cdot 1) = f(0.05, 1.05) = 0.05 + 1.05 = 1.10 \\
+k_3 &= f(t_0 + 0.05, y_0 + 0.05 \cdot 1.10) = f(0.05, 1.055) = 0.05 + 1.055 = 1.105 \\
+k_4 &= f(t_0 + 0.1, y_0 + 0.1 \cdot 1.105) = f(0.1, 1.1105) = 0.1 + 1.1105 = 1.2105 \\
+y_1 &= y_0 + \frac{0.1}{6} (1 + 2 \cdot 1.10 + 2 \cdot 1.105 + 1.2105) \\
+&= 1 + 0.016667 (1 + 2.2 + 2.21 + 1.2105) \\
+&= 1 + 0.016667 \cdot 6.6205 \approx 1 + 0.1103 = 1.1103
+\end{aligned}
+\]
+
+\subsection{Step 2 (Optional)}
+Repeat similarly to compute \(y_2, y_3, \dots\) for the interval of interest.
+
+\section{Discussion on Accuracy and Advantages}
+\begin{itemize}
+    \item RK4 is fourth-order accurate, much more precise than Euler (first-order) or Heun (second-order) for the same step size.  
+    \item It is a single-step method, requiring no previous history beyond the last step.  
+    \item More computationally intensive than Euler or Heun (4 slope evaluations per step), but highly stable and reliable for general ODEs.  
+    \item Provides a standard reference method for testing and benchmarking other numerical solvers.
+\end{itemize}
+
+\section{Conclusion}
+The classical RK4 method is a robust and accurate numerical technique for solving ODEs. Its balance of accuracy, stability, and simplicity makes it widely used in scientific computing.
+
+\end{document}

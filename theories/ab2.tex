@@ -1,0 +1,80 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{margin=1in}
+
+\title{Adam-Bashforth Method: Explanation and Worked Example}
+\author{Ibrahim Hossen Masud}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note presents the Adam-Bashforth 2-step method for solving ordinary differential equations (ODEs). 
+It includes derivation, a step-by-step worked example, and discussion on accuracy, advantages, and limitations.
+\end{abstract}
+
+\section{Introduction}
+Adam-Bashforth methods are explicit linear multistep methods used to approximate solutions of ODEs:
+\[
+\frac{dy}{dt} = f(t,y), \quad y(t_0) = y_0
+\]
+
+The 2-step Adam-Bashforth method uses information from the previous two points to predict the next value.
+
+\section{Derivation of 2-Step Adam-Bashforth Method}
+Using polynomial interpolation for $f(t,y)$ over two previous points $(t_n, f_n)$ and $(t_{n-1}, f_{n-1})$, the update formula is:
+
+\[
+y_{n+1} = y_n + \frac{h}{2} \big( 3 f_n - f_{n-1} \big)
+\]
+
+where:
+\begin{itemize}
+    \item $h$ is the step size  
+    \item $f_n = f(t_n, y_n)$  
+    \item $f_{n-1} = f(t_{n-1}, y_{n-1})$  
+\end{itemize}
+
+This formula gives a second-order accurate approximation, improving on Euler’s first-order method.
+
+\section{Worked Example}
+Consider the differential equation:
+\[
+\frac{dy}{dt} = y - t^2 + 1, \quad y(0) = 0.5
+\]
+
+We first need a starting value from another method (e.g., Euler) for $y_1$. Assume:
+\[
+y_0 = 0.5, \quad y_1 = 0.806 \quad \text{(from Euler method with $h=0.2$)}
+\]
+
+Compute $y_2$ using Adam-Bashforth 2-step:
+
+\[
+\begin{aligned}
+f_1 &= f(t_1, y_1) = y_1 - t_1^2 + 1 = 0.806 - 0.2^2 + 1 = 1.766 \\
+f_0 &= f(t_0, y_0) = 0.5 - 0^2 + 1 = 1.5 \\
+y_2 &= y_1 + \frac{0.2}{2} (3 f_1 - f_0) = 0.806 + 0.1 (3 \cdot 1.766 - 1.5) \\
+&= 0.806 + 0.1 (5.298 - 1.5) = 0.806 + 0.3798 \approx 1.1858
+\end{aligned}
+\]
+
+Similarly, $y_3, y_4, \dots$ can be computed using the previous two points.
+
+\section{Discussion on Accuracy and Advantages}
+\begin{itemize}
+    \item Adam-Bashforth 2-step method is second-order accurate, better than Euler’s method.  
+    \item Being explicit, it is easy to implement, but stability depends on step size and problem type.  
+    \item Requires a starting procedure (like Euler or RK4) to generate the first point.  
+    \item Can be extended to 3-step, 4-step, etc., for higher-order accuracy.  
+    \item Particularly useful for problems where previous function evaluations are already available.
+\end{itemize}
+
+\section{Conclusion}
+The Adam-Bashforth 2-step method is a simple yet effective multistep method for solving ODEs. It demonstrates how using information from multiple previous steps can improve accuracy and efficiency over single-step methods.
+
+\end{document}

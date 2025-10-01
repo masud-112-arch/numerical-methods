@@ -1,0 +1,71 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{margin=1in}
+
+\title{Euler Method: Explanation and Worked Example}
+\author{Ibrahim Hossen Masud}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note presents the Euler method for solving ordinary differential equations (ODEs). 
+It includes the derivation of the method, a step-by-step worked example, and discussion on accuracy and limitations.
+\end{abstract}
+
+\section{Introduction}
+The Euler method is one of the simplest numerical techniques for approximating solutions of ordinary differential equations of the form:
+\[
+\frac{dy}{dt} = f(t,y), \quad y(t_0) = y_0
+\]
+It provides a first-order approximation, meaning that the error decreases linearly with the step size.
+
+\section{Derivation of Euler Method}
+Starting from the Taylor expansion of $y(t)$ around $t_n$:
+\[
+y(t_{n+1}) = y(t_n + h) = y(t_n) + h \frac{dy}{dt}\bigg|_{t_n} + \frac{h^2}{2} \frac{d^2y}{dt^2}\bigg|_{\xi_n}, \quad \xi_n \in [t_n, t_{n+1}]
+\]
+Neglecting the second-order term gives:
+\[
+y_{n+1} \approx y_n + h f(t_n, y_n)
+\]
+which is the Euler update formula.
+
+\section{Worked Example}
+Consider the differential equation:
+\[
+\frac{dy}{dt} = -2y + 2 - e^{-4t}, \quad y(0) = 1
+\]
+with exact solution:
+\[
+y(t) = 1 + \frac{1}{2} e^{-4t} - \frac{1}{2} e^{-2t}
+\]
+
+We choose a step size \(h = 0.1\) and compute the first few iterations:
+
+\[
+\begin{aligned}
+y_1 &= y_0 + h f(t_0, y_0) = 1 + 0.1(-2\cdot 1 + 2 - e^{0}) = 1 - 0.1 = 0.9 \\
+y_2 &= y_1 + h f(t_1, y_1) = 0.9 + 0.1(-2\cdot 0.9 + 2 - e^{-0.4}) \approx 0.9 + 0.1(-1.8 + 2 - 0.6703) \\
+&\approx 0.9 + 0.1(-0.4703) \approx 0.85297
+\end{aligned}
+\]
+
+Continuing this process, one can approximate \(y(t)\) for any \(t\) in the interval of interest.
+
+\section{Discussion on Accuracy and Limitations}
+\begin{itemize}
+    \item Euler method is first-order accurate, with global truncation error proportional to the step size \(h\).  
+    \item For small step sizes, the method gives reasonable approximations; however, for stiff equations or large \(h\), it may become unstable.  
+    \item It serves as a foundation for more advanced methods such as Heun's method, Runge-Kutta methods, and multistep methods.  
+    \item The method is easy to understand and implement, making it ideal for introductory study and teaching.
+\end{itemize}
+
+\section{Conclusion}
+Euler method provides a simple way to numerically solve ODEs. While limited in accuracy, its conceptual simplicity makes it a crucial stepping stone toward more sophisticated numerical schemes.
+
+\end{document}

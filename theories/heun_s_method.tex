@@ -1,0 +1,85 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{margin=1in}
+
+\title{Heun's Method: Explanation and Worked Example}
+\author{Ibrahim Hossen Masud}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note presents Heun's method for solving ordinary differential equations (ODEs). 
+It includes the derivation of the method, a step-by-step worked example, and discussion on accuracy and advantages over Euler's method.
+\end{abstract}
+
+\section{Introduction}
+Heun's method is a predictor-corrector method that improves the accuracy of Euler's method. It is a second-order method for solving initial value problems of the form:
+\[
+\frac{dy}{dt} = f(t,y), \quad y(t_0) = y_0
+\]
+
+\section{Derivation of Heun's Method}
+Heun's method proceeds in two steps:
+
+\subsection{Predictor Step (Euler Estimate)}
+\[
+y_{n}^{p} = y_n + h f(t_n, y_n)
+\]
+This is the Euler estimate at the next step.
+
+\subsection{Corrector Step (Average Slope)}
+\[
+y_{n+1} = y_n + \frac{h}{2} \Big[f(t_n, y_n) + f(t_{n+1}, y_n^{p}) \Big]
+\]
+
+\textbf{Explanation:} The method approximates the solution by taking the average of the slope at the beginning and the predicted slope at the end of the interval, giving a second-order accuracy.
+
+\section{Worked Example}
+Consider the ODE:
+\[
+\frac{dy}{dt} = y - t^2 + 1, \quad y(0) = 0.5
+\]
+with exact solution:
+\[
+y(t) = (t+1)^2 - 0.5 e^t
+\]
+
+Choose step size \(h = 0.2\).
+
+\subsection{Step 1}
+\[
+\begin{aligned}
+\text{Predictor: } y_0^p &= y_0 + h f(t_0, y_0) = 0.5 + 0.2 \big(0.5 - 0^2 + 1\big) = 0.5 + 0.2(1.5) = 0.8 \\
+\text{Corrector: } y_1 &= y_0 + \frac{h}{2}\big[f(t_0, y_0) + f(t_1, y_0^p)\big] \\
+&= 0.5 + 0.1\big[1.5 + (0.8 - 0.2^2 + 1)\big] \\
+&= 0.5 + 0.1(1.5 + 1.56) = 0.5 + 0.306 = 0.806
+\end{aligned}
+\]
+
+\subsection{Step 2 (Optional)}
+\[
+\begin{aligned}
+y_1^p &= y_1 + h f(t_1, y_1) = 0.806 + 0.2 (0.806 - 0.2^2 + 1) \approx 1.170 \\
+y_2 &= y_1 + \frac{h}{2} [f(t_1, y_1) + f(t_2, y_1^p)] \approx 0.806 + 0.1(1.566 + 1.930) \approx 1.1596
+\end{aligned}
+\]
+
+Continue similarly to approximate \(y(t)\) for the desired interval.
+
+\section{Discussion on Accuracy and Advantages}
+\begin{itemize}
+    \item Heun's method is second-order accurate, with global error proportional to \(h^2\), compared to Euler's first-order accuracy.  
+    \item Using the average slope reduces truncation error and improves stability.  
+    \item Slightly more computational work than Euler method (one extra function evaluation per step), but much higher accuracy.  
+    \item Provides a simple introduction to predictor-corrector and Runge-Kutta methods.
+\end{itemize}
+
+\section{Conclusion}
+Heun's method improves upon Euler by averaging slopes at the beginning and end of each step. It is simple, accurate, and forms the basis for more advanced numerical ODE techniques.
+
+\end{document}
